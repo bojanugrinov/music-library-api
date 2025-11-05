@@ -1,0 +1,35 @@
+services:
+  postgres:
+    container_name: music-library-api-postgres
+    image: postgres:17-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+  pgadmin:
+    container_name: music-library-api-pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - postgres
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+
+  pgweb:
+    container_name: music-library-api-pgweb
+    image: sosedoff/pgweb
+    restart: always
+    ports:
+      - '8081:8081'
+    environment:
+      PGWEB_DATABASE_URL: ${PGWEB_DATABASE_URL}
+    depends_on:
+      - postgres
