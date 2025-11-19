@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "docker compose up -d && echo. && nodemon src/server.ts"
+    "dev": "tsx tools/cli/main.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,9 @@
   "type": "commonjs",
   "dependencies": {
     "@prisma/client": "^6.19.0",
-    "express": "^5.1.0"
+    "chalk": "^5.6.2",
+    "express": "^5.1.0",
+    "tsx": "^4.20.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
