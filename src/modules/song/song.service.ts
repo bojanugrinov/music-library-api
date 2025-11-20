@@ -1,4 +1,4 @@
-import prisma from '../../db/prismaClient'
+import prisma from '../../prisma/client'
 import { NotFoundError, ValidationError } from '../../consts/errors'
 import { CreateSongDto, UpdateSongDto } from './song.types'
 
