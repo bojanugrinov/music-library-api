@@ -7,10 +7,24 @@ datasource db {
   provider = "postgresql"
 }
 
+model Artist {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  songs Song[]
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("artists")
+}
+
 model Song {
-  id     Int    @id @default(autoincrement())
-  title  String
-  artist String
+  id       Int    @id @default(autoincrement())
+  title    String
+  artistId Int    @map("artist_id")
+
+  artist Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")

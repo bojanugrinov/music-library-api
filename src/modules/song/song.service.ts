@@ -1,9 +1,12 @@
 import prisma from '../../prisma/client'
 import { NotFoundError, ValidationError } from '../../consts/errors'
-import { CreateSongDto, UpdateSongDto } from './song.types'
+import { CreateSongDto, songSelect, UpdateSongDto } from './song.types'
+import * as artistService from '../artist/artist.service'
 
 export const getSongs = () => {
-  return prisma.song.findMany()
+  return prisma.song.findMany({
+    select: songSelect,
+  })
 }
 
 export const getSongById = async (id: number) => {
@@ -11,7 +14,10 @@ export const getSongById = async (id: number) => {
     throw new ValidationError('Missing ID')
   }
 
-  const song = await prisma.song.findUnique({ where: { id } })
+  const song = await prisma.song.findUnique({
+    where: { id },
+    select: songSelect,
+  })
 
   if (!song) {
     throw new NotFoundError(`Song with ID: '${id}' not found`)
@@ -20,9 +26,13 @@ export const getSongById = async (id: number) => {
   return song
 }
 
-export const createSong = (data: CreateSongDto) => {
-  if (!data.title) throw new ValidationError('Missing title')
-  if (!data.artist) throw new ValidationError('MIssing artist')
+export const createSong = async (data: CreateSongDto) => {
+  const { title, artistId } = data
+
+  if (!title) throw new ValidationError('Missing title')
+  if (!artistId) throw new ValidationError('MIssing artist')
+
+  await artistService.getArtistById(data.artistId)
 
   return prisma.song.create({
     data: {
@@ -30,6 +40,7 @@ export const createSong = (data: CreateSongDto) => {
       createdAt: new Date(),
       updatedAt: null,
     },
+    include: { artist: true },
   })
 }
 
