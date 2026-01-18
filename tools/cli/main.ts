@@ -36,9 +36,7 @@ async function main() {
   // Clean old database and seed new
   console.log(chalk.cyan.bold('\nSeeding database...'))
   await run('npx prisma db push --force-reset')
-  await run(
-    'docker compose exec -T postgres psql -U postgres -d music-library-api < prisma/seed.sql'
-  )
+  await run('docker compose exec -T postgres psql -U postgres -d music-library < prisma/seed.sql')
 
   // Start server
   console.log(chalk.cyan.bold('\nStarting server...'))
