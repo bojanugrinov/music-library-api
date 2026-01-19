@@ -17,3 +17,21 @@ INSERT INTO songs (id, title, artist_id, created_at, updated_at) VALUES
   (9, '21 Questions', 3, now(), null);
 
 SELECT setval(pg_get_serial_sequence('songs', 'id'), (SELECT MAX(id) FROM songs));
+
+INSERT INTO playlists (id, title, created_at, updated_at) VALUES
+  (1, 'My Playlist #1', now(), null),
+  (2, 'My Playlist #2', now(), null),
+  (3, 'My Playlist #3', now(), null);
+
+SELECT setval(pg_get_serial_sequence('playlists', 'id'), (SELECT MAX(id) FROM playlists));
+
+INSERT INTO playlists_songs (playlist_id, song_id) VALUES
+  (1, 1),
+  (1, 4),
+  (1, 7),
+  (2, 2),
+  (2, 5),
+  (2, 8),
+  (3, 3),
+  (3, 6),
+  (3, 9);

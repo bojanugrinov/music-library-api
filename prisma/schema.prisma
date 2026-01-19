@@ -24,10 +24,33 @@ model Song {
   title    String
   artistId Int    @map("artist_id")
 
-  artist Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  artist        Artist         @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  playlistSongs PlaylistSong[]
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
 
   @@map("songs")
+}
+
+model Playlist {
+  id    Int            @id @default(autoincrement())
+  title String
+  songs PlaylistSong[]
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  @@map("playlists")
+}
+
+model PlaylistSong {
+  playlistId Int @map("playlist_id")
+  songId     Int @map("song_id")
+
+  playlist Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  song     Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@id([playlistId, songId])
+  @@map("playlists_songs")
 }
