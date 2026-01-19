@@ -86,6 +86,11 @@ Access them at:
 http://localhost:3000/api
 ```
 
+### Postman Workspace
+
+Import and test all API endpoints using this Postman workspace:
+[Music Library API - Postman Workspace](https://www.postman.com/bojanugrinov/workspace/music-library-api)
+
 ### Artists
 
 | Method | Route          | Description         |
